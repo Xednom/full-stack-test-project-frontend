@@ -12,12 +12,9 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
+      path: '/converter',
+      name: 'converter',
+      component: () => import('../components/ConvertMeterToFeet.vue'),
       meta: { requiresAuth: true },
     },
     {
@@ -32,7 +29,7 @@ const router = createRouter({
 // Navigation guard for authentication
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore()
-  
+
   // Initialize auth state on first load
   if (!authStore.user && authStore.token) {
     await authStore.checkAuth()

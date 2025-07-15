@@ -9,6 +9,7 @@
 
       <div class="nav-menu">
         <router-link to="/" class="nav-link">Home</router-link>
+        <router-link to="/converter" class="nav-link">Converter</router-link>
 
         <div class="user-menu" v-if="authStore.isAuthenticated">
           <div class="user-info">
