@@ -5,7 +5,14 @@ export interface ApiRequestOptions {
   method?: string
   headers?: Record<string, string>
   body?: any
-  token?: string
+  token?: string | null
+}
+
+export interface ErrorResponse {
+  message?: string
+  detail?: string
+  error?: string
+  [key: string]: any
 }
 
 export class ApiError extends Error {
@@ -50,11 +57,13 @@ export async function apiRequest(
     
     if (!response.ok) {
       let errorMessage = `HTTP ${response.status}`
-      let errorData = null
+      let errorData: ErrorResponse | null = null
       
       try {
-        errorData = await response.json()
-        errorMessage = errorData.message || errorData.detail || errorMessage
+        errorData = await response.json() as ErrorResponse
+        if (errorData) {
+          errorMessage = errorData.message || errorData.detail || errorData.error || errorMessage
+        }
       } catch {
         errorMessage = response.statusText || errorMessage
       }
@@ -80,28 +89,28 @@ export async function apiRequest(
 /**
  * GET request
  */
-export function apiGet(endpoint: string, token?: string) {
+export function apiGet(endpoint: string, token?: string | null) {
   return apiRequest(endpoint, { method: 'GET', token })
 }
 
 /**
  * POST request
  */
-export function apiPost(endpoint: string, data?: any, token?: string) {
+export function apiPost(endpoint: string, data?: any, token?: string | null) {
   return apiRequest(endpoint, { method: 'POST', body: data, token })
 }
 
 /**
  * PUT request
  */
-export function apiPut(endpoint: string, data?: any, token?: string) {
+export function apiPut(endpoint: string, data?: any, token?: string | null) {
   return apiRequest(endpoint, { method: 'PUT', body: data, token })
 }
 
 /**
  * DELETE request
  */
-export function apiDelete(endpoint: string, token?: string) {
+export function apiDelete(endpoint: string, token?: string | null) {
   return apiRequest(endpoint, { method: 'DELETE', token })
 }
 

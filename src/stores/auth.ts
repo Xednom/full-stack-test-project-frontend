@@ -1,6 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { apiPost, apiGet, ApiError } from '../utils/api'
+import type { User } from '../types/auth'
 
 // API Configuration
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
@@ -8,7 +9,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000
 export const useAuthStore = defineStore('auth', () => {
   // State
   const token = ref<string | null>(localStorage.getItem('auth_token'))
-  const user = ref<any>(null)
+  const user = ref<User | null>(null)
   const isLoading = ref(false)
 
   // Getters
