@@ -16,7 +16,7 @@ onMounted(() => {
 // Check if current route is login page
 const isLoginPage = computed(() => route.name === 'login');
 // Show debug panel in development
-const isDev = import.meta.env.DEV;
+const isDev = computed(() => import.meta.env.VITE_ENV_DEBUG === 'true');
 </script>
 
 <template>
